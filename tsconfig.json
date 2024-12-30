@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "target": "es5",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "skipLibCheck": true, // 跳过库文件的类型检查
+    "resolveJsonModule": true, // 允许导入 JSON 模块
+    "allowJs": true, // 允许同时使用 JavaScript 文件
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "ts-node": {
+    // 这个选项必不可少,否则webpack执行打包不识别ts格式的webpack.config.ts
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
+  "include": ["webpack.config.ts", "global.d.ts", "src/**/*.ts", "src/**/*.tsx"] // 有这些路径的文件会被正确识别,不爆红
+}
