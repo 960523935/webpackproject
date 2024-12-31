@@ -1,11 +1,12 @@
 import path from "path";
 import { Configuration } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import "webpack-dev-server";
 
 const config: Configuration = {
   entry: {
     main: {
-      import: "./src/index.ts",
+      import: "./src/app.tsx",
       dependOn: "shared",
     },
     shared: ["react", "react-dom"],
@@ -15,12 +16,12 @@ const config: Configuration = {
     filename: "[name].bundle.[contenthash:8].js",
     clean: true,
   },
-  // optimization: {
-  //   splitChunks: {
-  //     chunks: "all",
-  //   },
-  // },
-  devtool: "inline-source-map",
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+  },
+  devtool: "source-map",
   mode: "production",
   resolve: {
     alias: {
@@ -30,13 +31,31 @@ const config: Configuration = {
   },
   module: {
     rules: [
-      { test: /\.ts(x)?$/, loader: "ts-loader", exclude: /node_modules/ },
+      {
+        test: /\.ts(x)?$/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              ["@babel/preset-env"],
+              ["@babel/preset-react", { runtime: "automatic" }],
+              ["@babel/preset-typescript"],
+            ],
+          },
+        },
+        exclude: /node_modules/,
+      },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
-    }),
-  ],
+  plugins: [new HtmlWebpackPlugin()],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "public"),
+    },
+    compress: true,
+    port: 9000,
+    liveReload: true, // 自动刷新
+    hot: true,
+  },
 };
 export default config;

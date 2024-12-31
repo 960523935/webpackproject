@@ -4,6 +4,7 @@
   "description": "",
   "main": "./src/index.ts",
   "scripts": {
+    "start": "webpack server --open",
     "build": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,14 +21,26 @@
   "homepage": "https://github.com/960523935/webpackproject#readme",
   "dependencies": {
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "@types/webpack": "^5.28.5",
+    "@types/webpack-dev-server": "^4.7.2",
+    "@types/webpack-env": "^1.18.5",
+    "babel-loader": "^9.2.1",
     "html-webpack-plugin": "^5.6.3",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "webpack": "^5.97.1",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
   }
 }
