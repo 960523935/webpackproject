@@ -3,6 +3,7 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "module": "ESNext",
     "target": "es5",
     "jsx": "react",
@@ -10,7 +11,6 @@
     "skipLibCheck": true, // 跳过库文件的类型检查
     "resolveJsonModule": true, // 允许导入 JSON 模块
     "allowJs": true, // 允许同时使用 JavaScript 文件
-    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

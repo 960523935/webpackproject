@@ -1,10 +1,15 @@
 import React, { lazy, Suspense, ReactElement } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 
 // 使用 Webpack 的 require.context 动态加载 pages 文件夹中的组件
 const pages = require.context("../pages", true, /\.tsx$/);
 
-/** 递归生成路由的函数 */ 
+/** 递归生成路由的函数 */
 const generateRoutes = (context: __WebpackModuleApi.RequireContext) => {
   const routes: ReactElement[] = [];
 
@@ -12,13 +17,9 @@ const generateRoutes = (context: __WebpackModuleApi.RequireContext) => {
     const path = key
       .replace("./", "")
       .replace(".tsx", "")
-      .replace(/\/index$/, "") // 将嵌套路由文件的名称 "Index.tsx" 转换为父目录路由
-      .replace(/\//g, "/"); // 保证嵌套路由的路径
+      .replace(/\/index$/, ""); // 将嵌套路由文件的名称 "Index.tsx" 转换为父目录路由
 
-    console.log("path=======>", path, key, context(key));
-
-    const Component = lazy(() => import(`${context(key)}`));
-
+    const Component = lazy(() => import(`@/pages/${path}`));
     routes.push(
       <Route
         key={path}
@@ -35,10 +36,15 @@ const generateRoutes = (context: __WebpackModuleApi.RequireContext) => {
   return routes;
 };
 
+/** 约定式路由组件 */
 const App = () => {
+  const routes = generateRoutes(pages);
   return (
     <Router>
-      <Routes>{generateRoutes(pages)}</Routes>
+      <Routes>
+        <Route path="/" element={<Navigate to="/home" replace />} />
+        {routes}
+      </Routes>
     </Router>
   );
 };

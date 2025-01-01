@@ -4,4 +4,4 @@ declare global {
   }
 }
 
-export {};
+declare module "*.less";

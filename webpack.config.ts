@@ -2,6 +2,7 @@ import path from "path";
 import { Configuration } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import "webpack-dev-server";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 const config: Configuration = {
   entry: {
@@ -15,6 +16,7 @@ const config: Configuration = {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].bundle.[contenthash:8].js",
     clean: true,
+    publicPath: "/",
   },
   optimization: {
     splitChunks: {
@@ -45,10 +47,39 @@ const config: Configuration = {
         },
         exclude: /node_modules/,
       },
+      {
+        test: /\.less$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[path][name]-[local]-[hash:base64:5]",
+              },
+            },
+          },
+          {
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+              },
+            },
+          },
+        ],
+      },
     ],
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash:8].css", // 输出 CSS 文件名
+      chunkFilename: "[id].[contenthash:8].css", // 分块 CSS 文件名
+    }),
+    new HtmlWebpackPlugin(),
+  ],
   devServer: {
+    historyApiFallback: true,
     static: {
       directory: path.join(__dirname, "public"),
     },
